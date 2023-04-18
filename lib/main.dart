@@ -17,10 +17,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(),
-      routes: {AddFriendsScreen.routeName: (context) => AddFriendsScreen()},
+      routes: {
+        AddFriendsScreen.routeName: (context) => AddFriendsScreen(),
+      },
     );
   }
 }

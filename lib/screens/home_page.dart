@@ -15,13 +15,16 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text("PlateWise"),
       ),
-      body: Center(
-        child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, AddFriendsScreen.routeName);
-            },
-            child: Text("Add Friends")),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 32.0, right: 8),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, AddFriendsScreen.routeName);
+          },
+          label: const Text("Add Friends"),
+        ),
       ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../model/friend.dart';
 
 class AddFriendsScreen extends StatefulWidget {
-  AddFriendsScreen({Key? key}) : super(key: key);
+  const AddFriendsScreen({Key? key}) : super(key: key);
   static const String routeName = "/add_friends";
 
   @override
@@ -113,46 +113,15 @@ class _AddFriendsScreenState extends State<AddFriendsScreen> {
           children: buildFriendChips(),
         ),
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 32.0, right: 8),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, AddFriendsScreen.routeName);
+          },
+          label: const Text("Add Bill Items"),
+        ),
+      ),
     );
   }
-// Widget build(BuildContext context) {
-//   return Scaffold(
-//     appBar: AppBar(
-//       title: const Text('Add Friends'),
-//     ),
-//     body: Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: ListView.builder(
-//         itemCount: friends.length + 1,
-//         scrollDirection: Axis.horizontal,
-//         itemBuilder: (BuildContext context, int index) {
-//           // Check if the current index is the last one
-//           if (index == friends.length) {
-//             return Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 4.0),
-//               child: InkWell(
-//                 onTap: () {
-//                   showAddFriendDialog(context);
-//                 },
-//                 child: const Chip(
-//                   label: Text('+ Add Friend'),
-//                 ),
-//               ),
-//             );
-//           }
-//           return Padding(
-//             padding: const EdgeInsets.all(4.0),
-//             child: Chip(
-//               label: Text(friends[index].name),
-//               deleteIcon: const Icon(Icons.close, size: 16),
-//               onDeleted: () {
-//                 removeFriend(friends[index]);
-//               },
-//             ),
-//           );
-//         },
-//       ),
-//     ),
-//   );
-// }
 }

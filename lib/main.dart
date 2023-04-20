@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platewise/screens/add_friends.dart';
+import 'package:platewise/screens/add_items.dart';
 import 'package:platewise/screens/home_page.dart';
 
 void main() {
@@ -16,12 +17,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        brightness: Brightness.light,
         primarySwatch: Colors.green,
       ),
       home: const MyHomePage(),
       routes: {
         AddFriendsScreen.routeName: (context) => const AddFriendsScreen(),
+        AddItemsScreen.routeName: (context) => const AddItemsScreen(),
       },
     );
   }

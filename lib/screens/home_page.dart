@@ -24,7 +24,6 @@ class _MyHomePageState extends State<MyHomePage> {
           label: const Text("Add Friends"),
         ),
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

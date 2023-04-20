@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:platewise/screens/add_items.dart';
 
 import '../model/friend.dart';
 
@@ -117,7 +118,7 @@ class _AddFriendsScreenState extends State<AddFriendsScreen> {
         padding: const EdgeInsets.only(bottom: 32.0, right: 8),
         child: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushNamed(context, AddFriendsScreen.routeName);
+            Navigator.pushNamed(context, AddItemsScreen.routeName);
           },
           label: const Text("Add Bill Items"),
         ),

@@ -12,12 +12,12 @@ class AssignItemsScreen extends StatefulWidget {
       {super.key, required this.items, required this.friends});
 
   @override
-  _AssignItemsScreenState createState() => _AssignItemsScreenState();
+  State<AssignItemsScreen> createState() => _AssignItemsScreenState();
 }
 
 class _AssignItemsScreenState extends State<AssignItemsScreen> {
   Item? selectedItem;
-  Set<Friend> selectedFriends = <Friend>{};
+  Map<Item, Set<Friend>> itemFriendMap = {};
 
   void selectItem(Item item) {
     setState(() {
@@ -27,10 +27,16 @@ class _AssignItemsScreenState extends State<AssignItemsScreen> {
 
   void toggleFriendSelection(Friend friend) {
     setState(() {
-      if (selectedFriends.contains(friend)) {
-        selectedFriends.remove(friend);
-      } else {
-        selectedFriends.add(friend);
+      if (selectedItem != null) {
+        if (!itemFriendMap.containsKey(selectedItem!)) {
+          itemFriendMap[selectedItem!] = <Friend>{};
+        }
+
+        if (itemFriendMap[selectedItem!]!.contains(friend)) {
+          itemFriendMap[selectedItem!]!.remove(friend);
+        } else {
+          itemFriendMap[selectedItem!]!.add(friend);
+        }
       }
     });
   }
@@ -95,9 +101,15 @@ class _AssignItemsScreenState extends State<AssignItemsScreen> {
                         Wrap(
                           spacing: 8,
                           children: widget.friends.map((friend) {
+                            bool selected = false;
+                            if (selectedItem != null &&
+                                itemFriendMap.containsKey(selectedItem!)) {
+                              selected = itemFriendMap[selectedItem!]!
+                                  .contains(friend);
+                            }
                             return FilterChip(
                                 label: Text(friend.name),
-                                selected: selectedFriends.contains(friend),
+                                selected: selected,
                                 onSelected: (bool selected) {
                                   toggleFriendSelection(friend);
                                 });

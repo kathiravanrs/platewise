@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:platewise/screens/add_items.dart';
 
+import '../data.dart';
 import '../model/friend.dart';
 
 class AddFriendsScreen extends StatefulWidget {
@@ -12,12 +13,6 @@ class AddFriendsScreen extends StatefulWidget {
 }
 
 class _AddFriendsScreenState extends State<AddFriendsScreen> {
-  List<Friend> friends = [
-    Friend(name: 'Alice'),
-    Friend(name: 'Bob'),
-    Friend(name: 'Charlie'),
-  ];
-
   void removeFriend(Friend friend) {
     setState(() {
       friends.remove(friend);

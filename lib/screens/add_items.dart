@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:platewise/screens/assign_items.dart';
 
+import '../data.dart';
 import '../model/item.dart';
 
 class AddItemsScreen extends StatefulWidget {
@@ -12,8 +13,6 @@ class AddItemsScreen extends StatefulWidget {
 }
 
 class _AddItemsScreenState extends State<AddItemsScreen> {
-  List<Item> items = [];
-
   void deleteItem(Item item) {
     setState(() {
       items.remove(item);
@@ -191,31 +190,34 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
               ],
             ),
             actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  deleteItem(item);
-                  Navigator.of(context).pop();
-                },
-                style: TextButton.styleFrom(
-                  primary: Colors.red, // Set the color to red
-                ),
-                child: const Text('Delete'),
-              ),
-              TextButton(
-                onPressed: () {
-                  if (itemName.isNotEmpty) {
-                    updateItem(item, itemNameController.text,
-                        double.parse(priceController.text), quantity);
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Update'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      deleteItem(item);
+                      Navigator.of(context).pop();
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.red, // Set the color to red
+                    ),
+                    child: const Text('Delete'),
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          if (itemName.isNotEmpty) {
+                            updateItem(item, itemNameController.text,
+                                double.parse(priceController.text), quantity);
+                          }
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           );
@@ -235,7 +237,10 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
           },
           child: Card(
             elevation: 0,
-            color: Theme.of(context).colorScheme.surfaceVariant,
+            shape: const RoundedRectangleBorder(
+              side: BorderSide(),
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
             child: SizedBox(
               height: 80,
               child: Padding(
@@ -265,9 +270,9 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "\$ ${item.price.toStringAsFixed(2)}",
+                        "\$${item.price.toStringAsFixed(2)}",
                         style: const TextStyle(
-                          fontSize: 22, // Adjust the font size as needed
+                          fontSize: 18, // Adjust the font size as needed
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -285,22 +290,20 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
       onTap: () {
         showAddItemDialog(context);
       },
-      child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.0),
-          child: Center(
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(),
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-              child: SizedBox(
-                // width: 300,
-                height: 80,
-                child: Center(child: Text('+ Add Item')),
-              ),
-            ),
-          )),
+      child: const Center(
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(),
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
+          child: SizedBox(
+            // width: 300,
+            height: 80,
+            child: Center(child: Text('+ Add Item')),
+          ),
+        ),
+      ),
     );
 
     itemList.add(addItemChip);

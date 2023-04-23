@@ -12,3 +12,5 @@ List<Item> items = [
   Item("IJK", 15.99, 1),
   Item("XYZ", 4.99, 4),
 ];
+
+Map<Item, Set<Friend>> itemFriendMap = {};

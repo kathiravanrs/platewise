@@ -109,14 +109,11 @@ class _AddFriendsScreenState extends State<AddFriendsScreen> {
           children: buildFriendChips(),
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 32.0, right: 8),
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, AddItemsScreen.routeName);
-          },
-          label: const Text("Add Bill Items"),
-        ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pushNamed(context, AddItemsScreen.routeName);
+        },
+        label: const Text("Add Bill Items"),
       ),
     );
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_titled_container/flutter_titled_container.dart';
 import 'package:platewise/model/item.dart';
+import 'package:platewise/screens/review_screen.dart';
 
+import '../data.dart';
 import '../model/friend.dart';
 
 class AssignItemsScreen extends StatefulWidget {
@@ -18,7 +19,6 @@ class AssignItemsScreen extends StatefulWidget {
 
 class _AssignItemsScreenState extends State<AssignItemsScreen> {
   Item? selectedItem;
-  Map<Item, Set<Friend>> itemFriendMap = {};
 
   void selectItem(Item item) {
     setState(() {
@@ -52,64 +52,58 @@ class _AssignItemsScreenState extends State<AssignItemsScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: TitledContainer(
-                title: 'Pick Item',
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey, width: 1),
-                  ),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: SingleChildScrollView(
-                      child: Wrap(
-                        spacing: 8,
-                        children: widget.items.map((item) {
-                          return ChoiceChip(
-                            label: Text(item.name),
-                            selected: selectedItem == item,
-                            onSelected: (bool selected) {
-                              selectItem(item);
-                            },
-                          );
-                        }).toList(),
-                      ),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.grey, width: 1),
+                ),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      spacing: 8,
+                      children: widget.items.map((item) {
+                        return ChoiceChip(
+                          label: Text(item.name),
+                          selected: selectedItem == item,
+                          onSelected: (bool selected) {
+                            selectItem(item);
+                          },
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             Expanded(
-              child: TitledContainer(
-                title: 'Select Friends',
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey, width: 1),
-                  ),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: SingleChildScrollView(
-                      child: Wrap(
-                        spacing: 8,
-                        children: widget.friends.map((friend) {
-                          bool selected = false;
-                          if (selectedItem != null &&
-                              itemFriendMap.containsKey(selectedItem!)) {
-                            selected =
-                                itemFriendMap[selectedItem!]!.contains(friend);
-                          }
-                          return FilterChip(
-                              label: Text(friend.name),
-                              selected: selected,
-                              onSelected: (bool selected) {
-                                toggleFriendSelection(friend);
-                              });
-                        }).toList(),
-                      ),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.grey, width: 1),
+                ),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      spacing: 8,
+                      children: widget.friends.map((friend) {
+                        bool selected = false;
+                        if (selectedItem != null &&
+                            itemFriendMap.containsKey(selectedItem!)) {
+                          selected =
+                              itemFriendMap[selectedItem!]!.contains(friend);
+                        }
+                        return FilterChip(
+                            label: Text(friend.name),
+                            selected: selected,
+                            onSelected: (bool selected) {
+                              toggleFriendSelection(friend);
+                            });
+                      }).toList(),
                     ),
                   ),
                 ),
@@ -118,6 +112,11 @@ class _AssignItemsScreenState extends State<AssignItemsScreen> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, ReviewScreen.routeName);
+          },
+          label: const Text("Continue")),
     );
   }
 }

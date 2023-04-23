@@ -3,6 +3,7 @@ import 'package:platewise/screens/add_friends.dart';
 import 'package:platewise/screens/add_items.dart';
 import 'package:platewise/screens/assign_items.dart';
 import 'package:platewise/screens/home_page.dart';
+import 'package:platewise/screens/review_screen.dart';
 
 import 'data.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         AddFriendsScreen.routeName: (context) => const AddFriendsScreen(),
         AddItemsScreen.routeName: (context) => const AddItemsScreen(),
+        ReviewScreen.routeName: (context) => const ReviewScreen(),
         AssignItemsScreen.routeName: (context) =>
             AssignItemsScreen(friends: friends, items: items),
       },

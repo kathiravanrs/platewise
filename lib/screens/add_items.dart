@@ -497,7 +497,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:platewise/screens/assign_items.dart';
-
 import '../data.dart';
 import '../model/item.dart';
 
@@ -511,6 +510,9 @@ class AddItemsScreen extends StatefulWidget {
 
 class _AddItemsScreenState extends State<AddItemsScreen> {
   double totalFees = 0;
+  double totalTax = 0.0;
+  double totalTip = 0.0;
+  double totalOtherFees = 0.0;
 
   void deleteItem(Item item) {
     setState(() {
@@ -840,15 +842,19 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
 
   Future<void> showFeesDialog(BuildContext context) async {
     TextEditingController finalAmountController = TextEditingController();
-    TextEditingController amountController = TextEditingController();
-    TextEditingController percentageController = TextEditingController();
+    TextEditingController taxAmountController = TextEditingController();
+    TextEditingController taxPercentageController = TextEditingController();
+    TextEditingController tipAmountController = TextEditingController();
+    TextEditingController tipPercentageController = TextEditingController();
+    TextEditingController otherAmountController = TextEditingController();
+    TextEditingController otherPercentageController = TextEditingController();
 
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
-            title: const Text('Add Other Fees'),
+            title: const Text('Add Fees, Taxes, and Tips'),
             content: SizedBox(
               width: double.maxFinite,
               child: DefaultTabController(
@@ -878,36 +884,124 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
                               ),
                             ],
                           ),
-                          Column(
-                            children: [
-                              TextField(
-                                keyboardType: TextInputType.number,
-                                controller: amountController,
-                                onChanged: (value) {
-                                  double percentage =
-                                      (double.parse(value) / getPreTaxTotal()) *
-                                          100;
-                                  percentageController.text =
-                                      percentage.toStringAsFixed(2);
-                                },
-                                decoration: const InputDecoration(
-                                  labelText: 'Amount',
+                          SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: taxAmountController,
+                                        onChanged: (value) {
+                                          double percentage =
+                                              (double.parse(value) /
+                                                      getPreTaxTotal()) *
+                                                  100;
+                                          taxPercentageController.text =
+                                              percentage.toStringAsFixed(2);
+                                        },
+                                        decoration: const InputDecoration(
+                                          labelText: 'Tax Amount',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: taxPercentageController,
+                                        onChanged: (value) {
+                                          double amount = getPreTaxTotal() *
+                                              (double.parse(value) / 100);
+                                          taxAmountController.text =
+                                              amount.toStringAsFixed(2);
+                                        },
+                                        decoration: const InputDecoration(
+                                          labelText: 'Tax Percentage',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              TextField(
-                                keyboardType: TextInputType.number,
-                                controller: percentageController,
-                                onChanged: (value) {
-                                  double amount = getPreTaxTotal() *
-                                      (double.parse(value) / 100);
-                                  amountController.text =
-                                      amount.toStringAsFixed(2);
-                                },
-                                decoration: const InputDecoration(
-                                  labelText: 'Percentage',
+                                const SizedBox(height: 16),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: tipAmountController,
+                                        onChanged: (value) {
+                                          double percentage =
+                                              (double.parse(value) /
+                                                      getPreTaxTotal()) *
+                                                  100;
+                                          tipPercentageController.text =
+                                              percentage.toStringAsFixed(2);
+                                        },
+                                        decoration: const InputDecoration(
+                                          labelText: 'Tip Amount',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: tipPercentageController,
+                                        onChanged: (value) {
+                                          double amount = getPreTaxTotal() *
+                                              (double.parse(value) / 100);
+                                          tipAmountController.text =
+                                              amount.toStringAsFixed(2);
+                                        },
+                                        decoration: const InputDecoration(
+                                          labelText: 'Tip Percentage',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 16),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: otherAmountController,
+                                        onChanged: (value) {
+                                          double percentage =
+                                              (double.parse(value) /
+                                                      getPreTaxTotal()) *
+                                                  100;
+                                          otherPercentageController.text =
+                                              percentage.toStringAsFixed(2);
+                                        },
+                                        decoration: const InputDecoration(
+                                          labelText: 'Other Fees Amount',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        controller: otherPercentageController,
+                                        onChanged: (value) {
+                                          double amount = getPreTaxTotal() *
+                                              (double.parse(value) / 100);
+                                          otherAmountController.text =
+                                              amount.toStringAsFixed(2);
+                                        },
+                                        decoration: const InputDecoration(
+                                          labelText: 'Other Fees Percentage',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -929,10 +1023,15 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
                     setState(() {
                       totalFees = double.parse(finalAmountController.text) -
                           getPreTaxTotal();
+                      totalTax = 0.0;
+                      totalTip = 0.0;
+                      totalOtherFees = 0.0;
                     });
                   } else {
                     setState(() {
-                      totalFees = double.parse(amountController.text);
+                      totalTax = double.parse(taxAmountController.text);
+                      totalTip = double.parse(tipAmountController.text);
+                      totalOtherFees = double.parse(otherAmountController.text);
                     });
                   }
                   Navigator.of(context).pop();

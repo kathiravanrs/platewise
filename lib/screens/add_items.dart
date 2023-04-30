@@ -509,10 +509,9 @@ class AddItemsScreen extends StatefulWidget {
 }
 
 class _AddItemsScreenState extends State<AddItemsScreen> {
+  double preTaxAmount = 0;
   double totalFees = 0;
-  double totalTax = 0.0;
-  double totalTip = 0.0;
-  double totalOtherFees = 0.0;
+  double totalAmountPaid = 0;
 
   void deleteItem(Item item) {
     setState(() {
@@ -539,6 +538,10 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
     for (Item item in items) {
       preTaxTotal += item.price * item.quantity;
     }
+    setState(() {
+      preTaxAmount = preTaxTotal;
+      totalAmountPaid = preTaxAmount + totalFees;
+    });
     return preTaxTotal;
   }
 
@@ -816,233 +819,7 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
     );
 
     itemList.add(addItemChip);
-    Widget addTaxes = InkWell(
-      onTap: () {
-        showFeesDialog(context);
-      },
-      child: const Center(
-        child: Card(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(),
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-          child: SizedBox(
-            // width: 300,
-            height: 80,
-            child: Center(child: Text('Taxes and Fees')),
-          ),
-        ),
-      ),
-    );
-
-    itemList.add(addTaxes);
     return itemList;
-  }
-
-  Future<void> showFeesDialog(BuildContext context) async {
-    TextEditingController finalAmountController = TextEditingController();
-    TextEditingController taxAmountController = TextEditingController();
-    TextEditingController taxPercentageController = TextEditingController();
-    TextEditingController tipAmountController = TextEditingController();
-    TextEditingController tipPercentageController = TextEditingController();
-    TextEditingController otherAmountController = TextEditingController();
-    TextEditingController otherPercentageController = TextEditingController();
-
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(builder: (context, setState) {
-          return AlertDialog(
-            title: const Text('Add Fees, Taxes, and Tips'),
-            content: SizedBox(
-              width: double.maxFinite,
-              child: DefaultTabController(
-                length: 2,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const TabBar(
-                      tabs: [
-                        Tab(text: 'Final Bill Amount'),
-                        Tab(text: 'Individual Fees'),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      height: 200,
-                      child: TabBarView(
-                        children: [
-                          Column(
-                            children: [
-                              TextField(
-                                keyboardType: TextInputType.number,
-                                controller: finalAmountController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Final Amount',
-                                ),
-                              ),
-                            ],
-                          ),
-                          SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        controller: taxAmountController,
-                                        onChanged: (value) {
-                                          double percentage =
-                                              (double.parse(value) /
-                                                      getPreTaxTotal()) *
-                                                  100;
-                                          taxPercentageController.text =
-                                              percentage.toStringAsFixed(2);
-                                        },
-                                        decoration: const InputDecoration(
-                                          labelText: 'Tax Amount',
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Expanded(
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        controller: taxPercentageController,
-                                        onChanged: (value) {
-                                          double amount = getPreTaxTotal() *
-                                              (double.parse(value) / 100);
-                                          taxAmountController.text =
-                                              amount.toStringAsFixed(2);
-                                        },
-                                        decoration: const InputDecoration(
-                                          labelText: 'Tax Percentage',
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        controller: tipAmountController,
-                                        onChanged: (value) {
-                                          double percentage =
-                                              (double.parse(value) /
-                                                      getPreTaxTotal()) *
-                                                  100;
-                                          tipPercentageController.text =
-                                              percentage.toStringAsFixed(2);
-                                        },
-                                        decoration: const InputDecoration(
-                                          labelText: 'Tip Amount',
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Expanded(
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        controller: tipPercentageController,
-                                        onChanged: (value) {
-                                          double amount = getPreTaxTotal() *
-                                              (double.parse(value) / 100);
-                                          tipAmountController.text =
-                                              amount.toStringAsFixed(2);
-                                        },
-                                        decoration: const InputDecoration(
-                                          labelText: 'Tip Percentage',
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        controller: otherAmountController,
-                                        onChanged: (value) {
-                                          double percentage =
-                                              (double.parse(value) /
-                                                      getPreTaxTotal()) *
-                                                  100;
-                                          otherPercentageController.text =
-                                              percentage.toStringAsFixed(2);
-                                        },
-                                        decoration: const InputDecoration(
-                                          labelText: 'Other Fees Amount',
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Expanded(
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        controller: otherPercentageController,
-                                        onChanged: (value) {
-                                          double amount = getPreTaxTotal() *
-                                              (double.parse(value) / 100);
-                                          otherAmountController.text =
-                                              amount.toStringAsFixed(2);
-                                        },
-                                        decoration: const InputDecoration(
-                                          labelText: 'Other Fees Percentage',
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  if (finalAmountController.text.isNotEmpty) {
-                    setState(() {
-                      totalFees = double.parse(finalAmountController.text) -
-                          getPreTaxTotal();
-                      totalTax = 0.0;
-                      totalTip = 0.0;
-                      totalOtherFees = 0.0;
-                    });
-                  } else {
-                    setState(() {
-                      totalTax = double.parse(taxAmountController.text);
-                      totalTip = double.parse(tipAmountController.text);
-                      totalOtherFees = double.parse(otherAmountController.text);
-                    });
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Add'),
-              ),
-            ],
-          );
-        });
-      },
-    );
   }
 
   @override
@@ -1054,6 +831,7 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
               child: ListView(
@@ -1063,23 +841,41 @@ class _AddItemsScreenState extends State<AddItemsScreen> {
             const SizedBox(height: 16),
             Text(
               'Pre-Tax Total: \$${getPreTaxTotal().toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 24),
             ),
             const SizedBox(height: 8),
             Text(
-              'Total Fees: \$${totalFees.toStringAsFixed(2)}',
+              'Taxes & Fees: \$${totalFees.toStringAsFixed(2)}',
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 8),
-            Text(
-              'Final Total: \$${(getPreTaxTotal() + totalFees).toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text(
+                  'Total Amount Paid: \$',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(
+                  width: 80,
+                  child: TextField(
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        setState(() {
+                          totalFees = double.parse(value) - preTaxAmount;
+                        });
+                      }),
+                ),
+              ],
             ),
-            FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.pushNamed(context, AssignItemsScreen.routeName);
-              },
-              label: const Text("Continue"),
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0),
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(context, AssignItemsScreen.routeName);
+                },
+                label: const Text("Continue"),
+              ),
             ),
           ],
         ),

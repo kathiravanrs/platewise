@@ -509,10 +509,6 @@ class AddItemsScreen extends StatefulWidget {
 }
 
 class _AddItemsScreenState extends State<AddItemsScreen> {
-  double preTaxAmount = 0;
-  double totalFees = 0;
-  double totalAmountPaid = 0;
-
   void deleteItem(Item item) {
     setState(() {
       items.remove(item);

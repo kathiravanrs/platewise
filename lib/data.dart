@@ -8,9 +8,15 @@ List<Friend> friends = [
 ];
 
 List<Item> items = [
-  Item("ABC", 29.99, 2),
-  Item("IJK", 15.99, 1),
-  Item("XYZ", 4.99, 4),
+  Item("ABC", 30, 1),
+  Item("IJK", 20, 1),
+  Item("XYZ", 10, 1),
 ];
 
 Map<Item, Set<Friend>> itemFriendMap = {};
+Map<Friend, double> friendSplitMap = {};
+Map<Friend, double> friendTotal = {};
+
+double preTaxAmount = 0;
+double totalFees = 0;
+double totalAmountPaid = 0;

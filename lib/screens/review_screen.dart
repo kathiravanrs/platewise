@@ -13,6 +13,7 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   Friend selectedFriend = friends[0];
+  List<Item> itemListForSelectedFriend = [];
 
   void calculateSplit() {
     friendPreTaxSplit.clear();
@@ -34,6 +35,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
   }
 
+  void generateList() {
+    itemListForSelectedFriend.clear();
+    for (Item item in itemFriendMap.keys) {
+      if (itemFriendMap[item]?.contains(selectedFriend) ?? false) {
+        itemListForSelectedFriend.add(item);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     calculateSplit();
@@ -51,6 +61,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   onTap: () {
                     setState(() {
                       selectedFriend = friends[index];
+                      generateList();
                     });
                   },
                   child: Card(
@@ -104,6 +115,56 @@ class _ReviewScreenState extends State<ReviewScreen> {
             child: Column(
               children: [
                 Text("Selected Friend ${selectedFriend.name}"),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: itemListForSelectedFriend.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        return Card(
+                          elevation: 0,
+                          shape: const RoundedRectangleBorder(
+                            side: BorderSide(),
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        itemListForSelectedFriend[index].name,
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                      const Text(
+                                        "Total: ",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                      const Text(
+                                        "Share: ",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    "\$",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                ),
               ],
             ),
           )

@@ -14,8 +14,8 @@ List<Item> items = [
 ];
 
 Map<Item, Set<Friend>> itemFriendMap = {};
-Map<Friend, double> friendSplitMap = {};
-Map<Friend, double> friendTotal = {};
+Map<Friend, double> friendPreTaxSplit = {};
+Map<Friend, double> friendTaxSplit = {};
 
 double preTaxAmount = 0;
 double totalFees = 0;

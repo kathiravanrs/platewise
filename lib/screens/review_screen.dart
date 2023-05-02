@@ -47,7 +47,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     calculateSplit();
-
     return Scaffold(
       appBar: AppBar(title: const Text("Review")),
       body: Column(
@@ -83,7 +82,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   style: const TextStyle(fontSize: 20),
                                 ),
                                 Text(
-                                  "Cost: ${friendPreTaxSplit[friend]!.toStringAsFixed(2)}",
+                                  "Pre Tax: ${friendPreTaxSplit[friend]!.toStringAsFixed(2)}",
                                   style: const TextStyle(fontSize: 14),
                                 ),
                                 Text(
@@ -117,53 +116,69 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 Text("Selected Friend ${selectedFriend.name}"),
                 Expanded(
                   child: ListView.builder(
-                      itemCount: itemListForSelectedFriend.length,
-                      itemBuilder: (BuildContext ctx, int index) {
-                        return Card(
-                          elevation: 0,
-                          shape: const RoundedRectangleBorder(
-                            side: BorderSide(),
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        itemListForSelectedFriend[index].name,
-                                        style: const TextStyle(fontSize: 20),
-                                      ),
-                                      const Text(
-                                        "Total: ",
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                      const Text(
-                                        "Share: ",
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    "\$",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                    itemCount: itemListForSelectedFriend.length,
+                    itemBuilder: (BuildContext ctx, int index) {
+                      return Card(
+                        elevation: 0,
+                        shape: const RoundedRectangleBorder(
+                          side: BorderSide(),
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      itemListForSelectedFriend[index].name,
+                                      style: const TextStyle(fontSize: 20),
                                     ),
+                                    Text(
+                                      "Total: \$${itemListForSelectedFriend[index].getTotalAfterTax().toStringAsFixed(2)}",
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                      child: ListView.builder(
+                                          itemCount: itemFriendMap[
+                                                  itemListForSelectedFriend[
+                                                      index]]
+                                              ?.toList()
+                                              .length,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder:
+                                              (BuildContext ctx, int i) {
+                                            List<Friend> l = itemFriendMap[
+                                                        itemListForSelectedFriend[
+                                                            index]]
+                                                    ?.toList() ??
+                                                [];
+                                            print(l);
+                                            return Chip(label: Text(l[i].name));
+                                          }),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  "\$",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        );
-                      }),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

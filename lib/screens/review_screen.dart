@@ -156,7 +156,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                                             index]]
                                                     ?.toList() ??
                                                 [];
-                                            print(l);
                                             return Chip(label: Text(l[i].name));
                                           }),
                                     )

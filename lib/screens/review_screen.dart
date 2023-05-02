@@ -162,11 +162,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   ],
                                 ),
                               ),
-                              const Align(
+                              Align(
                                 alignment: Alignment.centerRight,
                                 child: Text(
-                                  "\$",
-                                  style: TextStyle(
+                                  "\$${(itemListForSelectedFriend[index].getTotalAfterTax() / (itemFriendMap[itemListForSelectedFriend[index]]?.toList().length ?? 1)).toStringAsFixed(2)}",
+                                  style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),

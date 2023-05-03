@@ -110,10 +110,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
               },
             ),
           ),
+          Divider(),
+          Text(selectedFriend.name),
+          Divider(),
           Expanded(
             child: Column(
               children: [
-                Text("Selected Friend ${selectedFriend.name}"),
                 Expanded(
                   child: ListView.builder(
                     itemCount: itemListForSelectedFriend.length,
@@ -156,7 +158,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                                             index]]
                                                     ?.toList() ??
                                                 [];
-                                            return Chip(label: Text(l[i].name));
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child:
+                                                  Chip(label: Text(l[i].name)),
+                                            );
                                           }),
                                     )
                                   ],

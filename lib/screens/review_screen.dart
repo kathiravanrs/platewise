@@ -13,7 +13,7 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   Friend selectedFriend = friends[0];
-  List<Item> itemListForSelectedFriend = [];
+  List<Item> itemListForFriend = [];
 
   void calculateSplit() {
     friendPreTaxSplit.clear();
@@ -36,10 +36,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   void generateList() {
-    itemListForSelectedFriend.clear();
+    itemListForFriend.clear();
     for (Item item in itemFriendMap.keys) {
       if (itemFriendMap[item]?.contains(selectedFriend) ?? false) {
-        itemListForSelectedFriend.add(item);
+        itemListForFriend.add(item);
       }
     }
   }
@@ -47,31 +47,29 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     calculateSplit();
+    generateList();
     return Scaffold(
       appBar: AppBar(title: const Text("Review")),
-      body: Column(
-        children: [
-          Expanded(
-            child: buildFriendListView(),
-          ),
-          Text(selectedFriend.name),
-          Expanded(
-            child: Column(
-              children: [
-                Expanded(
-                  child: buildItemListForFriend(),
-                ),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: buildFriendListView(),
             ),
-          )
-        ],
+            Text(selectedFriend.name),
+            Expanded(
+              child: buildItemListForFriend(),
+            )
+          ],
+        ),
       ),
     );
   }
 
   ListView buildItemListForFriend() {
     return ListView.builder(
-      itemCount: itemListForSelectedFriend.length,
+      itemCount: itemListForFriend.length,
       itemBuilder: (BuildContext ctx, int index) {
         return Card(
           elevation: 0,
@@ -88,11 +86,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        itemListForSelectedFriend[index].name,
+                        itemListForFriend[index].name,
                         style: const TextStyle(fontSize: 18),
                       ),
                       Text(
-                        "Total: \$${itemListForSelectedFriend[index].getTotalAfterTax().toStringAsFixed(2)}",
+                        "Total: \$${itemListForFriend[index].getTotalAfterTax().toStringAsFixed(2)}",
                         style: const TextStyle(fontSize: 12),
                       ),
                       SizedBox(
@@ -105,7 +103,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    "\$${(itemListForSelectedFriend[index].getTotalAfterTax() / (itemFriendMap[itemListForSelectedFriend[index]]?.toList().length ?? 1)).toStringAsFixed(2)}",
+                    "\$${(itemListForFriend[index].getTotalAfterTax() / (itemFriendMap[itemListForFriend[index]]?.toList().length ?? 1)).toStringAsFixed(2)}",
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -182,20 +180,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   ListView buildChipListForItem(int index) {
     return ListView.builder(
-        itemCount:
-            itemFriendMap[itemListForSelectedFriend[index]]?.toList().length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (BuildContext ctx, int i) {
-          List<Friend> l =
-              itemFriendMap[itemListForSelectedFriend[index]]?.toList() ?? [];
-          return Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Chip(
-                label: Text(
-              l[i].name,
-              style: TextStyle(fontSize: 10),
-            )),
-          );
-        });
+      itemCount: itemFriendMap[itemListForFriend[index]]?.toList().length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext ctx, int i) {
+        List<Friend> l =
+            itemFriendMap[itemListForFriend[index]]?.toList() ?? [];
+        return Padding(
+          padding: const EdgeInsets.only(right: 4.0),
+          child: Chip(
+              label: Text(l[i].name, style: const TextStyle(fontSize: 10))),
+        );
+      },
+    );
   }
 }

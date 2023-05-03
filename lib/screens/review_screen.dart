@@ -52,139 +52,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: friends.length,
-              itemBuilder: (BuildContext context, int index) {
-                Friend friend = friends[index];
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      selectedFriend = friends[index];
-                      generateList();
-                    });
-                  },
-                  child: Card(
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      side: BorderSide(),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  friend.name,
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                                Text(
-                                  "Pre Tax: ${friendPreTaxSplit[friend]!.toStringAsFixed(2)}",
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                                Text(
-                                  "Fees: ${friendTaxSplit[friend]!.toStringAsFixed(2)}",
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              "\$${(friendPreTaxSplit[friend]! + friendTaxSplit[friend]!).toStringAsFixed(2)}",
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+            child: buildFriendListView(),
           ),
-          Divider(),
           Text(selectedFriend.name),
-          Divider(),
           Expanded(
             child: Column(
               children: [
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: itemListForSelectedFriend.length,
-                    itemBuilder: (BuildContext ctx, int index) {
-                      return Card(
-                        elevation: 0,
-                        shape: const RoundedRectangleBorder(
-                          side: BorderSide(),
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      itemListForSelectedFriend[index].name,
-                                      style: const TextStyle(fontSize: 20),
-                                    ),
-                                    Text(
-                                      "Total: \$${itemListForSelectedFriend[index].getTotalAfterTax().toStringAsFixed(2)}",
-                                      style: const TextStyle(fontSize: 14),
-                                    ),
-                                    SizedBox(
-                                      height: 50,
-                                      child: ListView.builder(
-                                          itemCount: itemFriendMap[
-                                                  itemListForSelectedFriend[
-                                                      index]]
-                                              ?.toList()
-                                              .length,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder:
-                                              (BuildContext ctx, int i) {
-                                            List<Friend> l = itemFriendMap[
-                                                        itemListForSelectedFriend[
-                                                            index]]
-                                                    ?.toList() ??
-                                                [];
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child:
-                                                  Chip(label: Text(l[i].name)),
-                                            );
-                                          }),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  "\$${(itemListForSelectedFriend[index].getTotalAfterTax() / (itemFriendMap[itemListForSelectedFriend[index]]?.toList().length ?? 1)).toStringAsFixed(2)}",
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                  child: buildItemListForFriend(),
                 ),
               ],
             ),
@@ -192,5 +67,135 @@ class _ReviewScreenState extends State<ReviewScreen> {
         ],
       ),
     );
+  }
+
+  ListView buildItemListForFriend() {
+    return ListView.builder(
+      itemCount: itemListForSelectedFriend.length,
+      itemBuilder: (BuildContext ctx, int index) {
+        return Card(
+          elevation: 0,
+          shape: const RoundedRectangleBorder(
+            side: BorderSide(),
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        itemListForSelectedFriend[index].name,
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      Text(
+                        "Total: \$${itemListForSelectedFriend[index].getTotalAfterTax().toStringAsFixed(2)}",
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 40,
+                        child: buildChipListForItem(index),
+                      )
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "\$${(itemListForSelectedFriend[index].getTotalAfterTax() / (itemFriendMap[itemListForSelectedFriend[index]]?.toList().length ?? 1)).toStringAsFixed(2)}",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  ListView buildFriendListView() {
+    return ListView.builder(
+      itemCount: friends.length,
+      itemBuilder: (BuildContext context, int index) {
+        Friend friend = friends[index];
+        return InkWell(
+          onTap: () {
+            setState(() {
+              selectedFriend = friends[index];
+              generateList();
+            });
+          },
+          child: Card(
+            elevation: 0,
+            shape: const RoundedRectangleBorder(
+              side: BorderSide(),
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          friend.name,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        Text(
+                          "Pre Tax: ${friendPreTaxSplit[friend]!.toStringAsFixed(2)}",
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          "Fees: ${friendTaxSplit[friend]!.toStringAsFixed(2)}",
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "\$${(friendPreTaxSplit[friend]! + friendTaxSplit[friend]!).toStringAsFixed(2)}",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  ListView buildChipListForItem(int index) {
+    return ListView.builder(
+        itemCount:
+            itemFriendMap[itemListForSelectedFriend[index]]?.toList().length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (BuildContext ctx, int i) {
+          List<Friend> l =
+              itemFriendMap[itemListForSelectedFriend[index]]?.toList() ?? [];
+          return Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Chip(
+                label: Text(
+              l[i].name,
+              style: TextStyle(fontSize: 10),
+            )),
+          );
+        });
   }
 }

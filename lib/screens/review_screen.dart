@@ -55,8 +55,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
         child: Column(
           children: [
             friendsList(),
-            Text(selectedFriend.name),
-            // itemWidgetListForFriend()
             tabView(),
           ],
         ),
@@ -126,112 +124,60 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 
-  Widget itemWidgetListForFriend() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: itemListForFriend.length,
-        itemBuilder: (BuildContext ctx, int index) {
-          return Card(
-            elevation: 0,
-            shape: const RoundedRectangleBorder(
-              side: BorderSide(),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          itemListForFriend[index].name,
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                        Text(
-                          "Total: \$${itemListForFriend[index].getTotalAfterTax().toStringAsFixed(2)}",
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: 20,
-                          child: buildChipListForItem(index),
-                        )
-                      ],
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "\$${(itemListForFriend[index].getTotalAfterTax() / (itemFriendMap[itemListForFriend[index]]?.toList().length ?? 1)).toStringAsFixed(2)}",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
   Widget itemWidgetListForFriendf(Friend f) {
-    setState(() {
-      selectedFriend = f;
-    });
-    return Expanded(
-      child: ListView.builder(
-        itemCount: itemListForFriend.length,
-        itemBuilder: (BuildContext ctx, int index) {
-          return Card(
-            elevation: 0,
-            shape: const RoundedRectangleBorder(
-              side: BorderSide(),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          itemListForFriend[index].name,
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                        Text(
-                          "Total: \$${itemListForFriend[index].getTotalAfterTax().toStringAsFixed(2)}",
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: 20,
-                          child: buildChipListForItem(index),
-                        )
-                      ],
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "\$${(itemListForFriend[index].getTotalAfterTax() / (itemFriendMap[itemListForFriend[index]]?.toList().length ?? 1)).toStringAsFixed(2)}",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+    List<Item> itemList = [];
+    for (Item item in itemFriendMap.keys) {
+      if (itemFriendMap[item]?.contains(f) ?? false) {
+        itemList.add(item);
+      }
+    }
+    return ListView.builder(
+      itemCount: itemList.length,
+      itemBuilder: (BuildContext ctx, int index) {
+        return Card(
+          elevation: 0,
+          shape: const RoundedRectangleBorder(
+            side: BorderSide(),
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        itemList[index].name,
+                        style: const TextStyle(fontSize: 18),
                       ),
+                      Text(
+                        "Total: \$${itemList[index].getTotalAfterTax().toStringAsFixed(2)}",
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 20,
+                        child: buildChipListForItem(itemList[index]),
+                      )
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "\$${(itemList[index].getTotalAfterTax() / (itemFriendMap[itemListForFriend[index]]?.toList().length ?? 1)).toStringAsFixed(2)}",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -258,13 +204,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 
-  ListView buildChipListForItem(int index) {
+  ListView buildChipListForItem(Item item) {
     return ListView.builder(
-      itemCount: itemFriendMap[itemListForFriend[index]]?.toList().length,
+      itemCount: itemFriendMap[item]?.toList().length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext ctx, int i) {
-        List<Friend> l =
-            itemFriendMap[itemListForFriend[index]]?.toList() ?? [];
+        List<Friend> l = itemFriendMap[item]?.toList() ?? [];
         return Padding(
           padding: const EdgeInsets.only(right: 4.0),
           child: Container(

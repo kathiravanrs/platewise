@@ -124,7 +124,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 
-  Widget itemWidgetListForFriendf(Friend f) {
+  Widget itemWidgetListForFriend(Friend f) {
     List<Item> itemList = [];
     for (Item item in itemFriendMap.keys) {
       if (itemFriendMap[item]?.contains(f) ?? false) {
@@ -194,7 +194,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             Expanded(
               child: TabBarView(
                 children: friends.map((Friend f) {
-                  return itemWidgetListForFriendf(f);
+                  return itemWidgetListForFriend(f);
                 }).toList(),
               ),
             ),
@@ -213,7 +213,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
         return Padding(
           padding: const EdgeInsets.only(right: 4.0),
           child: Container(
-            // color: Theme.of(context).dividerColor,
             decoration: BoxDecoration(
               color: Theme.of(context).hoverColor,
               borderRadius: BorderRadius.circular(5),

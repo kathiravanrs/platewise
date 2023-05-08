@@ -1,17 +1,9 @@
 import 'model/friend.dart';
 import 'model/item.dart';
 
-List<Friend> friends = [
-  Friend(name: 'Alice'),
-  Friend(name: 'Bob'),
-  Friend(name: 'Charlie'),
-];
+List<Friend> friends = [];
 
-List<Item> items = [
-  Item("ABC", 30, 1),
-  Item("IJK", 20, 1),
-  Item("XYZ", 10, 1),
-];
+List<Item> items = [];
 
 Map<Item, Set<Friend>> itemFriendMap = {};
 Map<Friend, double> friendPreTaxSplit = {};

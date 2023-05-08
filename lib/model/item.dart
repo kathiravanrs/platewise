@@ -14,4 +14,20 @@ class Item {
   double getTotalAfterTax() {
     return getTotal() * (1 + totalFees / preTaxAmount);
   }
+
+  // Convert an Item instance into a Map
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'price': price,
+        'quantity': quantity,
+      };
+
+  // Create an Item instance from a Map
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      json['name'],
+      json['price'],
+      json['quantity'],
+    );
+  }
 }

@@ -2,7 +2,6 @@ import 'model/friend.dart';
 import 'model/item.dart';
 
 List<Friend> friends = [];
-
 List<Item> items = [];
 
 Map<Item, Set<Friend>> itemFriendMap = {};

@@ -7,7 +7,9 @@ import 'package:platewise/screens/review_screen.dart';
 
 import 'data.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  savedInstances = await loadSplitInstances();
   runApp(const MyApp());
 }
 

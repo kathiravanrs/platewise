@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:platewise/data.dart';
 import 'package:platewise/model/friend.dart';
+import 'package:platewise/model/split_instance.dart';
 import '../model/item.dart';
 
 class ReviewScreen extends StatefulWidget {
@@ -59,6 +60,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.save),
+          onPressed: () async {
+            SplitInstance splitInstance = SplitInstance.name(
+              friends,
+              items,
+              itemFriendMap,
+              friendPreTaxSplit,
+              friendTaxSplit,
+              preTaxAmount,
+              totalFees,
+              totalAmountPaid,
+            );
+            savedInstances.add(splitInstance);
+            await saveSplitInstances(savedInstances);
+            print(await loadSplitInstances());
+          }),
     );
   }
 
@@ -124,10 +142,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 
-  Widget itemWidgetListForFriend(Friend f) {
+  Widget itemWidgetListForFriend(Friend friend) {
     List<Item> itemList = [];
     for (Item item in itemFriendMap.keys) {
-      if (itemFriendMap[item]?.contains(f) ?? false) {
+      if (itemFriendMap[item]?.contains(friend) ?? false) {
         itemList.add(item);
       }
     }

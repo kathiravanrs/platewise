@@ -32,22 +32,25 @@ class SplitInstance {
         'items': items.map((item) => item.toJson()).toList(),
         'itemFriendMap': itemFriendMap.map((item, friends) {
           return MapEntry(
-            item.toJson(),
-            friends.map((friend) => friend.toJson()).toSet(),
+            json.encode(item.toJson()), // Encode Item object to a JSON string
+            friends
+                .map((friend) => friend.toJson())
+                .toList(), // Change from Set to List for JSON compatibility
           );
         }),
         'friendPreTaxSplit': friendPreTaxSplit.map((friend, value) {
-          return MapEntry(friend.toJson(), value);
+          return MapEntry(json.encode(friend.toJson()),
+              value); // Encode Friend object to a JSON string
         }),
         'friendTaxSplit': friendTaxSplit.map((friend, value) {
-          return MapEntry(friend.toJson(), value);
+          return MapEntry(json.encode(friend.toJson()),
+              value); // Encode Friend object to a JSON string
         }),
         'preTaxAmount': preTaxAmount,
         'totalFees': totalFees,
         'totalAmountPaid': totalAmountPaid,
       };
 
-  // Create a SplitInstance instance from a Map
   factory SplitInstance.fromJson(Map<String, dynamic> json) {
     return SplitInstance.name(
       (json['friends'] as List<dynamic>)
@@ -59,18 +62,21 @@ class SplitInstance {
       (json['itemFriendMap'] as Map<String, dynamic>)
           .map((itemJson, friendsJson) {
         return MapEntry(
-          Item.fromJson(jsonDecode(itemJson)),
+          Item.fromJson(
+              jsonDecode(itemJson)), // Decode Item object from a JSON string
           (friendsJson as List<dynamic>)
               .map((friendJson) => Friend.fromJson(friendJson))
-              .toSet(),
+              .toSet(), // Convert back to Set
         );
       }),
       (json['friendPreTaxSplit'] as Map<String, dynamic>)
           .map((friendJson, value) {
-        return MapEntry(Friend.fromJson(jsonDecode(friendJson)), value);
+        return MapEntry(Friend.fromJson(jsonDecode(friendJson)),
+            value); // Decode Friend object from a JSON string
       }),
       (json['friendTaxSplit'] as Map<String, dynamic>).map((friendJson, value) {
-        return MapEntry(Friend.fromJson(jsonDecode(friendJson)), value);
+        return MapEntry(Friend.fromJson(jsonDecode(friendJson)),
+            value); // Decode Friend object from a JSON string
       }),
       json['preTaxAmount'],
       json['totalFees'],

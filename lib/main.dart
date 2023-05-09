@@ -9,7 +9,7 @@ import 'data.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  savedInstances = await loadSplitInstances();
+  savedSplits = await loadSplitInstancesFromPreferences();
   runApp(const MyApp());
 }
 

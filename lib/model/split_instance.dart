@@ -4,6 +4,7 @@ import 'friend.dart';
 import 'item.dart';
 
 class SplitInstance {
+  String name;
   List<Friend> friends;
   List<Item> items;
 
@@ -16,6 +17,7 @@ class SplitInstance {
   double totalAmountPaid;
 
   SplitInstance.name(
+    this.name,
     this.friends,
     this.items,
     this.itemFriendMap,
@@ -28,6 +30,7 @@ class SplitInstance {
 
   // Convert a SplitInstance instance into a Map
   Map<String, dynamic> toJson() => {
+        'name': name,
         'friends': friends.map((friend) => friend.toJson()).toList(),
         'items': items.map((item) => item.toJson()).toList(),
         'itemFriendMap': itemFriendMap.map((item, friends) {
@@ -53,6 +56,7 @@ class SplitInstance {
 
   factory SplitInstance.fromJson(Map<String, dynamic> json) {
     return SplitInstance.name(
+      json['name'],
       (json['friends'] as List<dynamic>)
           .map((friendJson) => Friend.fromJson(friendJson))
           .toList(),

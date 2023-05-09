@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:platewise/data.dart';
 import 'package:platewise/screens/add_friends.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -19,8 +20,23 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           Navigator.pushNamed(context, AddFriendsScreen.routeName);
         },
-        label: const Text("Add Friends"),
+        label: const Text("New Split"),
       ),
+      body: ListView.builder(
+          itemCount: savedSplits.length,
+          itemBuilder: (BuildContext ctx, int index) {
+            return InkWell(
+              onTap: () {
+                loadData(savedSplits[index]);
+                Navigator.pushNamed(context, AddFriendsScreen.routeName);
+              },
+              child: Card(
+                elevation: 0,
+                child:
+                    SizedBox(height: 20, child: Text(savedSplits[index].name)),
+              ),
+            );
+          }),
     );
   }
 }

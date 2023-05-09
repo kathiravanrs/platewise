@@ -64,6 +64,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           child: const Icon(Icons.save),
           onPressed: () async {
             SplitInstance splitInstance = SplitInstance.name(
+              DateTime.now().toString(),
               friends,
               items,
               itemFriendMap,
@@ -73,9 +74,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
               totalFees,
               totalAmountPaid,
             );
-            savedInstances.add(splitInstance);
-            await saveSplitInstances(savedInstances);
-            print(await loadSplitInstances());
+            savedSplits.add(splitInstance);
+            await saveSplitInstancesToPreferences(savedSplits);
+            print(await loadSplitInstancesFromPreferences());
           }),
     );
   }

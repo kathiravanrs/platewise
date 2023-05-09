@@ -28,16 +28,24 @@ double totalFees = 0;
 double totalAmountPaid = 0;
 
 void loadData(SplitInstance splitInstance) {
-  print(splitInstance.itemFriendMap);
   name = splitInstance.name;
   friends = splitInstance.friends;
   items = splitInstance.items;
-  itemFriendMap = splitInstance.itemFriendMap;
   friendTaxSplit = splitInstance.friendTaxSplit;
   friendPreTaxSplit = splitInstance.friendPreTaxSplit;
   preTaxAmount = splitInstance.preTaxAmount;
   totalFees = splitInstance.totalFees;
   totalAmountPaid = splitInstance.totalAmountPaid;
+  itemFriendMap.clear();
+
+  for (Item i in splitInstance.itemFriendMap.keys) {
+    Item item = items.firstWhere((element) => element.name == i.name);
+    itemFriendMap[item] = {};
+    for (Friend f in splitInstance.itemFriendMap[i]!) {
+      itemFriendMap[item]
+          ?.add(friends.firstWhere((element) => element.name == f.name));
+    }
+  }
 }
 
 Future<void> saveSplitInstancesToPreferences(

@@ -61,9 +61,8 @@ Future<List<SplitInstance>> loadSplitInstancesFromPreferences() async {
   final List<String>? jsonList = prefs.getStringList('split_instances');
   if (jsonList == null) {
     return [];
-  } else {
-    return jsonList
-        .map((jsonString) => SplitInstance.fromJson(json.decode(jsonString)))
-        .toList();
   }
+  return jsonList
+      .map((jsonString) => SplitInstance.fromJson(json.decode(jsonString)))
+      .toList();
 }

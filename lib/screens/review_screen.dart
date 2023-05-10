@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:platewise/data.dart';
 import 'package:platewise/model/friend.dart';
 import 'package:platewise/model/split_instance.dart';
+import 'package:platewise/screens/home_page.dart';
 import '../model/item.dart';
 
 class ReviewScreen extends StatefulWidget {
@@ -76,7 +77,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             );
             savedSplits.add(splitInstance);
             await saveSplitInstancesToPreferences(savedSplits);
-            print(await loadSplitInstancesFromPreferences());
+            Navigator.pushNamed(context, MyHomePage.routeName);
           }),
     );
   }

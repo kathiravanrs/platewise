@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:platewise/data.dart';
 import 'package:platewise/screens/add_friends.dart';
+import 'package:platewise/screens/review_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -29,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return InkWell(
             onTap: () {
               loadData(savedSplits[index]);
-              Navigator.pushNamed(context, AddFriendsScreen.routeName);
+              Navigator.pushNamed(context, ReviewScreen.routeName);
             },
             child: Card(
               elevation: 0,

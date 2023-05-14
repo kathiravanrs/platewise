@@ -6,12 +6,9 @@ import '../data.dart';
 import '../model/friend.dart';
 
 class AssignItemsScreen extends StatefulWidget {
-  final List<Item> items;
-  final List<Friend> friends;
   static const String routeName = "/assign_items";
 
-  const AssignItemsScreen(
-      {super.key, required this.items, required this.friends});
+  const AssignItemsScreen({super.key});
 
   @override
   State<AssignItemsScreen> createState() => _AssignItemsScreenState();
@@ -63,7 +60,7 @@ class _AssignItemsScreenState extends State<AssignItemsScreen> {
                   child: SingleChildScrollView(
                     child: Wrap(
                       spacing: 8,
-                      children: widget.items.map((item) {
+                      children: items.map((item) {
                         return ChoiceChip(
                           label: Text(item.name),
                           selected: selectedItem == item,
@@ -90,7 +87,7 @@ class _AssignItemsScreenState extends State<AssignItemsScreen> {
                   child: SingleChildScrollView(
                     child: Wrap(
                       spacing: 8,
-                      children: widget.friends.map((friend) {
+                      children: friends.map((friend) {
                         bool selected = false;
                         if (selectedItem != null &&
                             itemFriendMap.containsKey(selectedItem!)) {

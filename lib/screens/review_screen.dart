@@ -76,8 +76,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
               totalAmountPaid,
             );
             savedSplits.add(splitInstance);
-            await saveSplitInstancesToPreferences(savedSplits);
-            Navigator.pushNamed(context, MyHomePage.routeName);
+            saveSplitInstancesToPreferences(savedSplits).then(
+                (value) => Navigator.pushNamed(context, MyHomePage.routeName));
           }),
     );
   }

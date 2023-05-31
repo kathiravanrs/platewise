@@ -7,7 +7,7 @@ import '../model/item.dart';
 
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({Key? key}) : super(key: key);
-  static const String routeName = "/add_taxes";
+  static const String routeName = "/review_screen";
 
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();

@@ -62,10 +62,32 @@ class _ReviewScreenState extends State<ReviewScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.save),
-          onPressed: () async {
+        child: const Icon(Icons.save),
+        onPressed: () async {
+          String? splitName = await showDialog<String>(
+            context: context,
+            builder: (BuildContext context) {
+              String input = "";
+              return AlertDialog(
+                title: const Text('Save split as ?'),
+                content: TextFormField(
+                  onChanged: (value) => input = value,
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop(input);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+
+          if (splitName != null) {
             SplitInstance splitInstance = SplitInstance.name(
-              DateTime.now().toString(),
+              splitName,
               friends,
               items,
               itemFriendMap,
@@ -78,7 +100,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
             savedSplits.add(splitInstance);
             saveSplitInstancesToPreferences(savedSplits).then(
                 (value) => Navigator.pushNamed(context, MyHomePage.routeName));
-          }),
+          }
+        },
+      ),
     );
   }
 

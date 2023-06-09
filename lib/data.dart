@@ -48,6 +48,11 @@ void loadData(SplitInstance splitInstance) {
   }
 }
 
+Future<void> deleteData(SplitInstance splitInstance) async {
+  savedSplits.remove(splitInstance);
+  await saveSplitInstancesToPreferences(savedSplits);
+}
+
 Future<void> saveSplitInstancesToPreferences(
     List<SplitInstance> instances) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -32,6 +32,11 @@ class _MyHomePageState extends State<MyHomePage> {
               loadData(savedSplits[index]);
               Navigator.pushNamed(context, ReviewScreen.routeName);
             },
+            onLongPress: () {
+              setState(() {
+                deleteData(savedSplits[index]);
+              });
+            },
             child: Card(
               elevation: 0,
               child: SizedBox(height: 20, child: Text(savedSplits[index].name)),

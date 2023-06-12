@@ -32,10 +32,37 @@ class _MyHomePageState extends State<MyHomePage> {
               loadData(savedSplits[index]);
               Navigator.pushNamed(context, ReviewScreen.routeName);
             },
-            onLongPress: () {
-              setState(() {
-                deleteData(savedSplits[index]);
-              });
+            onLongPress: () async {
+              bool? delete = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Confirmation'),
+                    content: const Text(
+                        'Are you sure you want to delete this item?'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('Cancel'),
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('Delete'),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              if (delete == true) {
+                setState(() {
+                  deleteData(savedSplits[index]);
+                });
+              }
             },
             child: Card(
               elevation: 0,

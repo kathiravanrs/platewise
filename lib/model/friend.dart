@@ -8,7 +8,11 @@ class Friend {
         'name': name,
       };
 
-  // Create a Friend instance from a Map
+  @override
+  String toString() {
+    return 'Friend{name: $name}';
+  } // Create a Friend instance from a Map
+
   factory Friend.fromJson(Map<String, dynamic> json) {
     return Friend(
       name: json['name'],

@@ -11,6 +11,11 @@ class Item {
     return quantity * price;
   }
 
+  @override
+  String toString() {
+    return 'Item{name: $name, price: $price, quantity: $quantity}';
+  }
+
   double getTotalAfterTax() {
     return getTotal() * (1 + totalFees / preTaxAmount);
   }

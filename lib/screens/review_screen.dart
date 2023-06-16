@@ -107,11 +107,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   Widget friendsList() {
+    // print(friendPreTaxSplit);
     return Expanded(
       child: ListView.builder(
         itemCount: friends.length,
         itemBuilder: (BuildContext context, int index) {
           Friend friend = friends[index];
+          // print(friend);
           return InkWell(
             onTap: () {
               setState(() {
@@ -119,51 +121,57 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 generateList();
               });
             },
-            child: Card(
-              elevation: 0,
-              shape: const RoundedRectangleBorder(
-                side: BorderSide(),
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+            child: friendTotalCard(friend),
+          );
+        },
+      ),
+    );
+  }
+
+  Card friendTotalCard(Friend friend) {
+    double preTax = friendPreTaxSplit[friend] ?? 0;
+    double tax = friendTaxSplit[friend] ?? 0;
+    return Card(
+      elevation: 0,
+      shape: const RoundedRectangleBorder(
+        side: BorderSide(),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    friend.name,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    "Pre Tax: ${preTax.toStringAsFixed(2)}",
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                  Text(
+                    "Fees: ${tax.toStringAsFixed(2)}",
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            friend.name,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            "Pre Tax: ${friendPreTaxSplit[friend]!.toStringAsFixed(2)}",
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                          Text(
-                            "Fees: ${friendTaxSplit[friend]!.toStringAsFixed(2)}",
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "\$${(friendPreTaxSplit[friend]! + friendTaxSplit[friend]!).toStringAsFixed(2)}",
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                "\$${(tax + preTax).toStringAsFixed(2)}",
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
@@ -210,7 +218,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    "\$${(itemList[index].getTotalAfterTax() / (itemFriendMap[itemListForFriend[index]]?.toList().length ?? 1)).toStringAsFixed(2)}",
+                    "\$${(itemList[index].getTotalAfterTax() / (itemFriendMap[itemListForFriend[index]]!.toList().length ?? 1)).toStringAsFixed(2)}",
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

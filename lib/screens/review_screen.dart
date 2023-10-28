@@ -186,6 +186,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return ListView.builder(
       itemCount: itemList.length,
       itemBuilder: (BuildContext ctx, int index) {
+        print(itemList);
+        print(itemFriendMap);
         return Card(
           elevation: 0,
           shape: const RoundedRectangleBorder(

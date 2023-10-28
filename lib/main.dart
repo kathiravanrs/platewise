@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         AddFriendsScreen.routeName: (context) => const AddFriendsScreen(),
         MyHomePage.routeName: (context) => const MyHomePage(),
         AddItemsScreen.routeName: (context) => const AddItemsScreen(),
-        ReviewScreen.routeName: (context) => const ReviewScreen(),
         AssignItemsScreen.routeName: (context) => const AssignItemsScreen(),
+        ReviewScreen.routeName: (context) => const ReviewScreen(),
       },
     );
   }

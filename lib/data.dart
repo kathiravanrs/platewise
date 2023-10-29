@@ -38,7 +38,7 @@ void loadData(SplitInstance splitInstance) {
   totalAmountPaid = splitInstance.totalAmountPaid;
   itemFriendMap.clear();
 
-  print(splitInstance.itemFriendMap);
+  print(splitInstance.toString());
   for (Item i in splitInstance.itemFriendMap.keys) {
     Item item = items.firstWhere((element) => element.name == i.name);
     itemFriendMap[item] = {};

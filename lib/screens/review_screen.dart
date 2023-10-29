@@ -50,6 +50,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
   Widget build(BuildContext context) {
     calculateSplit();
     generateList();
+    // print(itemFriendMap);
+    print(itemListForFriend);
+
     return Scaffold(
       appBar: AppBar(title: const Text("Review")),
       body: Padding(
@@ -186,8 +189,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return ListView.builder(
       itemCount: itemList.length,
       itemBuilder: (BuildContext ctx, int index) {
-        print(itemList);
-        print(itemFriendMap);
         return Card(
           elevation: 0,
           shape: const RoundedRectangleBorder(
@@ -220,7 +221,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    "\$${(itemList[index].getTotalAfterTax() / (itemFriendMap[itemListForFriend[index]]!.toList().length ?? 1)).toStringAsFixed(2)}",
+                    "\$${(itemList[index].getTotalAfterTax() / (itemFriendMap[itemList[index]]!.toList().length ?? 1)).toStringAsFixed(2)}",
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
